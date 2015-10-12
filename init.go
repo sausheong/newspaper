@@ -17,8 +17,10 @@ var papers map[string]Paper
 func init() {
 	papers = make(map[string]Paper)
 	go func() {
-		checkAndLoad()
-		time.Sleep(15 * time.Minute)
+    for {
+  		checkAndLoad()
+  		time.Sleep(15 * time.Minute)      
+    }
 	}()
 }
 
@@ -52,9 +54,13 @@ func (paper *Paper) AddPreview(pre []byte) {
 func checkAndLoad() {
 	today := date()
 	source := "sources/TODAY_" + today + ".pdf"
+  fmt.Println("source is", source)
 	url := url(today)
 	if checkAndDownload(source, url) {
+    fmt.Println("starting conversion ...")
 		convert(source, today)
+	} else {
+	  fmt.Println("no conversion.")
 	}
 	loadPaper(today)
 }
@@ -68,6 +74,7 @@ func url(date string) string {
 }
 
 func loadPaper(date string) {
+  fmt.Println("loading paper to memory ...")
 	paper := Paper{Name: "today"}
 	files, err := ioutil.ReadDir("output/pages")
 	if err != nil {
@@ -83,11 +90,12 @@ func loadPaper(date string) {
 			fmt.Print(".", n)
 		}
 	}
+  fmt.Println("\npaper loaded.")
 	papers[paper.Name] = paper
 }
 
 func convert(source string, date string) {
-	if !sourceExists(source) {
+	if sourceExists(source) {
 		buildparams := []string{source, "output/pages/" + date}
 		cmd := exec.Command("pdftopng", buildparams...)
 		fmt.Println("Executing", strings.Join(cmd.Args, " "))
