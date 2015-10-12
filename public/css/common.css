@@ -1,0 +1,62 @@
+@import url(http://fonts.googleapis.com/css?family=Bree+Serif|Source+Sans+Pro:300,400);
+
+body { 
+	font-family: 'Source Sans Pro', sans-serif;
+	padding-top: 70px; 
+}
+p {
+	font-size: 16px; 
+	line-height: 140%; 
+}  
+
+.content {
+	background-color: #fff;
+	padding: 20px 50px 50px 50px;
+}  
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+#responder_editor { 
+	position: relative;
+	height: 400px;
+	line-height: inherit;
+}	
+#template_editor { 
+	position: relative;
+	height: 400px;
+	line-height: inherit;
+}
+#function_editor { 
+	position: relative;
+	height: 400px;
+	line-height: inherit;
+}
+
+#test_editor { 
+	position: relative;
+	height: 400px;
+	line-height: inherit;
+}
+	
+#editor { 
+	position: relative;
+	height: 400px;
+	line-height: inherit;
+}
+
+#input_editor { 
+	position: relative;
+	height: 200px;
+	line-height: inherit;
+}
+
+#output_editor { 
+	position: relative;
+	height: 200px;
+	line-height: inherit;
+}
