@@ -1,4 +1,4 @@
-package main
+package today
 
 import (
 	"bytes"
@@ -10,48 +10,11 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+   "github.com/sausheong/newspaper/paper"
 )
 
-var papers map[string]Paper
 
-func init() {
-	papers = make(map[string]Paper)
-	go func() {
-    for {
-  		checkAndLoad()
-  		time.Sleep(15 * time.Minute)      
-    }
-	}()
-}
-
-// represents a newspaper
-type Paper struct {
-	Name          string
-	NumOfPages    int
-	Pages         [][]byte
-	Previews      [][]byte
-	DateRefreshed time.Time
-	Sections      []Section
-}
-
-type Section struct {
-	Name      string
-	StartPage int
-}
-
-func (paper *Paper) AddSection(s Section) {
-	paper.Sections = append(paper.Sections, s)
-}
-
-func (paper *Paper) AddPage(pg []byte) {
-	paper.Pages = append(paper.Pages, pg)
-}
-
-func (paper *Paper) AddPreview(pre []byte) {
-	paper.Previews = append(paper.Previews, pre)
-}
-
-func checkAndLoad() {
+func CheckAndLoad() paper.Paper {
 	today := date()
 	source := "sources/TODAY_" + today + ".pdf"
   fmt.Println("source is", source)
@@ -62,7 +25,7 @@ func checkAndLoad() {
 	} else {
 	  fmt.Println("no conversion.")
 	}
-	loadPaper(today)
+	return loadPaper(today)
 }
 
 func date() string {
@@ -73,9 +36,9 @@ func url(date string) string {
 	return fmt.Sprintf("http://interactivepaper.todayonline.com/jrsrc/%s/%s.pdf", date, date)
 }
 
-func loadPaper(date string) {
+func loadPaper(date string) (p paper.Paper) {
   fmt.Println("loading paper to memory ...")
-	paper := Paper{Name: "today"}
+	p = paper.Paper{Name: "today"}
 	files, err := ioutil.ReadDir("output/pages")
 	if err != nil {
 		fmt.Println("cannot read directory", err)
@@ -86,12 +49,12 @@ func loadPaper(date string) {
 			if err != nil {
 				fmt.Println("cannot read file", err)
 			}
-			paper.AddPage(raw)
+			p.AddPage(raw)
 			fmt.Print(".", n)
 		}
 	}
   fmt.Println("\npaper loaded.")
-	papers[paper.Name] = paper
+	return
 }
 
 // convert pdf to multiple files
