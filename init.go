@@ -94,6 +94,7 @@ func loadPaper(date string) {
 	papers[paper.Name] = paper
 }
 
+// convert pdf to multiple files
 func convert(source string, date string) {
 	if sourceExists(source) {
 		buildparams := []string{source, "output/pages/" + date}
@@ -122,16 +123,18 @@ func convert(source string, date string) {
 	}
 }
 
+// check if source file exists and download it if it's not
 func checkAndDownload(source string, url string) bool {
 	if !sourceExists(source) {
 		fmt.Println("Source", source, "not found, trying to download now.")
 		return downloadAndSave(url, source)
 	} else {
-		fmt.Println("Already downloaded file")
+		fmt.Println("Already downloaded source file.")
 		return false
 	}
 }
 
+// check if the source file exists
 func sourceExists(source string) bool {
 	_, err := os.Stat(source)
 	if err != nil {
@@ -143,6 +146,8 @@ func sourceExists(source string) bool {
 	}
 }
 
+// download source file and save it
+// returns true if it's downloaded properly
 func downloadAndSave(url string, filename string) bool {
 	resp, err := http.Get(url)
 	if err != nil || resp.StatusCode == 404 {
