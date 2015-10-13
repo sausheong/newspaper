@@ -2,16 +2,16 @@ var Paper = React.createClass({
   render: function() {
     return (
     <div>
-      <Page url="/paper/today/page/0" />
+      <Page publication={this.props.publication}/>
     </div>
     );
   }  
 });
 
 var Page = React.createClass({
-  load: function(url) {
+  load: function(num) {    
     $.ajax({
-      url: url,
+      url: "/paper/" + this.props.publication + "/page/" + num,
       dataType: 'json',
       cache: false,
       success: function(data) {
@@ -20,7 +20,7 @@ var Page = React.createClass({
         });
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(this.props.publication, status, err.toString());
       }.bind(this)
     });    
   },
@@ -30,17 +30,17 @@ var Page = React.createClass({
     }
   },
   componentDidMount: function() {
-    this.load(this.props.url);
+    this.load(0);
   },
   prevPage: function() {
     var prev = this.state.data.num - 1;
     if (prev >= 0) {
-      this.load("/paper/today/page/" + prev);
+      this.load(prev);
     }    
   },
   nextPage: function() {
     var next = this.state.data.num + 1;
-    this.load("/paper/today/page/" + next);
+    this.load(next);
   },  
   render: function() {
     return (
@@ -57,5 +57,5 @@ var Page = React.createClass({
 });
 
 React.render(
- <Paper/> , document.getElementById('content')
+ <Paper publication={publication}/> , document.getElementById('content')
 );

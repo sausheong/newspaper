@@ -29,6 +29,7 @@ func init() {
 func main() {	
 	r := httprouter.New()
 	r.ServeFiles("/public/*filepath", http.Dir("public/"))
+  r.GET("/", index)
 	r.GET("/paper/:paper", newspaper)
 	r.GET("/paper/:paper/page/:page", page)
 
@@ -39,10 +40,15 @@ func main() {
 	server.ListenAndServe()
 }
 
-func newspaper(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// name := ps.ByName("paper")
+func index(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	t, _ := template.ParseFiles("html/index.html")
 	t.Execute(w, nil)
+}
+
+func newspaper(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	name := ps.ByName("paper")
+	t, _ := template.ParseFiles("html/page.html")
+	t.Execute(w, name)
 }
 
 func page(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
