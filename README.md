@@ -3,7 +3,7 @@
 
 Online print newspapers are mostly difficult to read on your tablets because they are usually large PDF files, offered online as a poorer alternative to your actual print edition, or the carefully formatted online editions. However, this doesn't need to be the case. Online print editions can an easy read as well, especially if you can zoom in and out as you please and flip the pages just like you do with the actual print editions.
 
-_Newspaper_ is an attempt to provide this flexibility. The basic benefits to your viewing experiences as compared to their original publication sites are:
+_Newspaper_ (http://paper.saush.com) is an attempt to provide this flexibility. The basic benefits to your viewing experiences as compared to their original publication sites are:
 
 1. Simple navigation -- just tap the left or right borders to flip to the previous or next pages, and pinch-zoom to view specific sections
 2. Fast response time -- every page flip is very fast
