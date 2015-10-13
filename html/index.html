@@ -12,8 +12,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <style>
+    body { font-family: 'Merriweather', serif; }
+    .logo { height: 85px; }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -22,21 +27,25 @@
           <i class="fa fa-newspaper-o"></i>
           Newspaper
         </h1>
-        <p class="lead">A better way to read print newspapers.</p>
+        <h4>A better way to read print newspapers on your tablet.</h4>
       </div>
 
-        <div class="row">
-          <div class="col-xs-6 col-md-3">
-            <a href="/paper/today" class="thumbnail">
-              <img height="300" src="http://www.todayonline.com/sites/all/themes/today/logo.png" alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-3">
-            <a href="/paper/thesun" class="thumbnail">
-              <img height="300" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2e/TheSun.svg/200px-TheSun.svg.png" alt="...">
-            </a>
-          </div>       
+      <div class="row marketing">
+        Tap on any one of these free newspapers to start reading! Tap on the left or right of the page to go to the previous or next pages.
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 col-md-6">
+          <a href="/paper/today" class="thumbnail">
+            <img class="logo" src="/public/today.png" alt="...">
+          </a>
         </div>
+        <div class="col-xs-6 col-md-6">
+          <a href="/paper/thesun" class="thumbnail">
+            <img class="logo" src="/public/thesun.png" alt="...">
+          </a>
+        </div>       
+      </div>
 
   </body>
 </html>
