@@ -6,6 +6,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/sausheong/newspaper/paper"
 	"github.com/sausheong/newspaper/today"
+  "github.com/sausheong/newspaper/thesun"
 	"html/template"
 	"net/http"
 	"os"
@@ -19,8 +20,12 @@ func init() {
   Papers = make(map[string]paper.Paper)
 	go func() {
 		for {
-			p := today.CheckAndLoad()
-      Papers[p.Name] = p
+			today := today.CheckAndLoad()
+      Papers[today.Name] = today
+      
+			thesun := thesun.CheckAndLoad()
+      Papers[thesun.Name] = thesun      
+      
 			time.Sleep(15 * time.Minute)
 		}
 	}()

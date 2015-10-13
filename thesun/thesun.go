@@ -1,4 +1,4 @@
-package today
+package thesun
 
 import (
 	"bytes"
@@ -16,9 +16,10 @@ import (
 
 func CheckAndLoad() paper.Paper {
 	today := date()
-	source := "sources/TODAY_" + today + ".pdf"
+  day := day()
+	source := "sources/THESUN_" + today + ".pdf"
   fmt.Println("source is", source)
-	url := url(today)
+	url := url(today, day)
 	if checkAndDownload(source, url) {
     fmt.Println("starting conversion ...")
 		convert(source, today)
@@ -29,23 +30,27 @@ func CheckAndLoad() paper.Paper {
 }
 
 func date() string {
-	return time.Now().Format("020106")
+	return time.Now().Format("02012006")
 }
 
-func url(date string) string {
-	return fmt.Sprintf("http://interactivepaper.todayonline.com/jrsrc/%s/%s.pdf", date, date)
+func day() string {
+  return strings.ToLower(time.Now().Format("Mon"))
+}
+
+func url(date string, day string) string {  
+	return fmt.Sprintf("http://thesun-epaper.com/%s/%s/files/assets/common/downloads/publication.pdf", day, date)
 }
 
 func loadPaper(date string) (p paper.Paper) {
   fmt.Println("loading paper to memory ...")
-	p = paper.Paper{Name: "today"}
-	files, err := ioutil.ReadDir("output/today/pages")
+	p = paper.Paper{Name: "thesun"}
+	files, err := ioutil.ReadDir("output/thesun/pages")
 	if err != nil {
 		fmt.Println("cannot read directory", err)
 	}
 	for n, f := range files {
 		if strings.HasPrefix(f.Name(), date) {
-			raw, err := ioutil.ReadFile("output/today/pages/" + f.Name())
+			raw, err := ioutil.ReadFile("output/thesun/pages/" + f.Name())
 			if err != nil {
 				fmt.Println("cannot read file", err)
 			}
@@ -60,7 +65,7 @@ func loadPaper(date string) (p paper.Paper) {
 // convert pdf to multiple files
 func convert(source string, date string) {
 	if sourceExists(source) {
-		buildparams := []string{source, "output/today/pages/" + date}
+		buildparams := []string{source, "output/thesun/pages/" + date}
 		cmd := exec.Command("pdftopng", buildparams...)
 		fmt.Println("Executing", strings.Join(cmd.Args, " "))
 		var out bytes.Buffer
@@ -71,7 +76,7 @@ func convert(source string, date string) {
 			fmt.Println("convert pages:", msg)
 		}
 
-		buildparams = []string{"-r", "15", source, "output/today/previews/" + date}
+		buildparams = []string{"-r", "15", source, "output/thesun/previews/" + date}
 		cmd = exec.Command("pdftopng", buildparams...)
 		fmt.Println("Executing", strings.Join(cmd.Args, " "))
 		cmd.Stdout, cmd.Stderr = &out, &out
