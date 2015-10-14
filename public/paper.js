@@ -9,16 +9,16 @@ var Paper = React.createClass({
 });
 
 var Page = React.createClass({
+  nextData: {"page": "", num: 1},
   load: function(num) { 
-    console.log(this.state.nextData)
-    if (this.state.nextData.page != "") {
-      console.log("data set to nextData")
+    if (this.nextData.page != "") {
+      console.log("setting data from nextData");
       this.setState({
-        data: this.state.nextData,
-      });
-    } 
+        data: this.nextData,
+      });      
+    }
     else {
-      console.log("data retrieved from site")
+      console.log("getting data from server");
       $.ajax({
         url: "/paper/" + this.props.publication + "/page/" + num,
         dataType: 'json',
@@ -31,29 +31,26 @@ var Page = React.createClass({
         error: function(xhr, status, err) {
           console.error(this.props.publication, status, err.toString());
         }.bind(this)
-      });          
-    }  
+      });                
+    }
   },
   preload: function(num) {
-    console.log("preload called");
+    console.log("preloading");
     $.ajax({
       url: "/paper/" + this.props.publication + "/page/" + num,
       dataType: 'json',
       cache: true,
       success: function(data) {
-        this.setState({
-          nextData: data
-        });
+        this.nextData = data;
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.publication, status, err.toString());
       }.bind(this)
-    });    
+    });                    
   },
   getInitialState: function() {
     return {
-      data : {"page": "", "num": 1}, 
-      nextData: {"page": "", "num": 2},       
+      data : {"page": "", num: 1}, 
     }
   },
   componentDidMount: function() {
