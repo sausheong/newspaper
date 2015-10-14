@@ -12,13 +12,13 @@ var Page = React.createClass({
   load: function(num) { 
     console.log(this.state.nextData)
     if (this.state.nextData.page != "") {
-      console.log("next state is blank")
+      console.log("data set to nextData")
       this.setState({
         data: this.state.nextData,
       });
     } 
     else {
-      console.log("next state is not blank")
+      console.log("data retrieved from site")
       $.ajax({
         url: "/paper/" + this.props.publication + "/page/" + num,
         dataType: 'json',
@@ -35,6 +35,7 @@ var Page = React.createClass({
     }  
   },
   preload: function(num) {
+    console.log("preload called");
     $.ajax({
       url: "/paper/" + this.props.publication + "/page/" + num,
       dataType: 'json',
@@ -68,7 +69,7 @@ var Page = React.createClass({
   nextPage: function() {
     var next = this.state.data.num + 1;
     this.load(next);
-    this.preload(next + 1);
+    this.preload(next+1);
   },  
   render: function() {
     return (
