@@ -9,14 +9,39 @@ var Paper = React.createClass({
 });
 
 var Page = React.createClass({
-  load: function(num) {    
+  load: function(num) { 
+    console.log(this.state.nextData)
+    if (this.state.nextData.page != "") {
+      console.log("next state is blank")
+      this.setState({
+        data: this.state.nextData,
+      });
+    } 
+    else {
+      console.log("next state is not blank")
+      $.ajax({
+        url: "/paper/" + this.props.publication + "/page/" + num,
+        dataType: 'json',
+        cache: true,
+        success: function(data) {
+          this.setState({
+            data: data
+          });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(this.props.publication, status, err.toString());
+        }.bind(this)
+      });          
+    }  
+  },
+  preload: function(num) {
     $.ajax({
       url: "/paper/" + this.props.publication + "/page/" + num,
       dataType: 'json',
       cache: true,
       success: function(data) {
         this.setState({
-          data: data
+          nextData: data
         });
       }.bind(this),
       error: function(xhr, status, err) {
@@ -24,16 +49,10 @@ var Page = React.createClass({
       }.bind(this)
     });    
   },
-  preload: function(num) {
-    $.ajax({
-      url: "/paper/" + this.props.publication + "/page/" + num,
-      dataType: 'json',
-      cache: true,
-    });    
-  },
   getInitialState: function() {
     return {
-      data : {"page": "", "num": 1},        
+      data : {"page": "", "num": 1}, 
+      nextData: {"page": "", "num": 2},       
     }
   },
   componentDidMount: function() {
