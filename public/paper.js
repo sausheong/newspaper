@@ -55,7 +55,7 @@ var Page = React.createClass({
   },
   componentDidMount: function() {
     this.load(0);
-    this.preload(0);
+    this.preload(1);
   },
   prevPage: function() {
     var prev = this.state.data.num - 1;
@@ -67,7 +67,7 @@ var Page = React.createClass({
   nextPage: function() {
     var next = this.state.data.num + 1;
     this.load(next);
-    this.preload(next);
+    this.preload(next+1);
   },  
   render: function() {
     return (
