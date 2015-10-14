@@ -8,6 +8,7 @@ import (
 	"github.com/sausheong/newspaper/today"
   "github.com/sausheong/newspaper/thesun"
 	"html/template"
+  "encoding/json"
 	"net/http"
 	"os"
 	"strconv"
@@ -37,7 +38,7 @@ func main() {
   r.GET("/", index)
 	r.GET("/paper/:paper", newspaper)
 	r.GET("/paper/:paper/page/:page", page)
-
+  r.GET("/paper/:paper/all", allpages)
 	server := &http.Server{
 		Addr:    ":" + os.Getenv("PORT"),
 		Handler: r,
@@ -64,4 +65,17 @@ func page(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	jsonData := fmt.Sprintf(format, base64.StdEncoding.EncodeToString(pg), page)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(jsonData))
+}
+
+
+func allpages(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	name := ps.ByName("paper")
+  var pages []paper.Page
+	for n, pg := range Papers[name].Pages {
+    p := paper.Page{Page: pg, Num: n}
+	  pages = append(pages, p)
+	}
+	jsonData, _ := json.Marshal(pages)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }

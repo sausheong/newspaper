@@ -17,6 +17,12 @@ type Section struct {
 	StartPage int
 }
 
+type Page struct {
+  Page []byte `json:"page"`
+  Num int `json:"num"`  
+}
+
+
 func (paper *Paper) AddSection(s Section) {
 	paper.Sections = append(paper.Sections, s)
 }
